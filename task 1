@@ -3,6 +3,7 @@ pins.analogSetPitchPin(AnalogPin.P0)
 music.setVolume(40)
 music.startMelody(music.builtInMelody(Melodies.PowerUp), MelodyOptions.Once)
 music.playMelody("C5 D E A E - A C ", 220)
+let n = 1
 let strip = neopixel.create(DigitalPin.P5, 18, NeoPixelMode.RGB_RGB)
 strip.setBrightness(255)
 strip.clear()
@@ -56,9 +57,13 @@ basic.forever(function () {
         strip.setBrightness(255)
         strip.showColor(neopixel.colors(NeoPixelColors.Red))
         strip.show()
-    } else {
+        basic.pause(2000)
+        n += 0
+    } else if (n) {
         strip.showRainbow(1, 360)
         strip.show()
         basic.pause(1000)
+    } else {
+    	
     }
 })
