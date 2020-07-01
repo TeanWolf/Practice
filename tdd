@@ -1,0 +1,56 @@
+basic.clearScreen()
+pins.analogSetPitchPin(AnalogPin.P0)
+music.setTempo(120)
+music.setVolume(40)
+music.startMelody(music.builtInMelody(Melodies.PowerUp), MelodyOptions.Once)
+let strip = neopixel.create(DigitalPin.P5, 18, NeoPixelMode.RGB_RGB)
+strip.setBrightness(255)
+strip.clear()
+strip.showRainbow(1, 360)
+strip.show()
+basic.pause(100)
+basic.forever(function () {
+    strip.rotate(1)
+    strip.show()
+    basic.pause(100)
+})
+basic.forever(function () {
+    basic.pause(1000)
+    music.setVolume(30)
+    music.setTempo(130)
+    music.startMelody(music.builtInMelody(Melodies.Birthday), MelodyOptions.ForeverInBackground)
+    basic.showLeds(`
+        . . . . .
+        . # . # .
+        # # # # #
+        # # # # #
+        # # # # #
+        `)
+    basic.pause(100)
+    basic.showLeds(`
+        . . . . .
+        . . . . .
+        . . . . .
+        # # # # #
+        # # # # #
+        `)
+    basic.pause(100)
+    basic.showLeds(`
+        . . . . .
+        . . . . .
+        . . . . .
+        . . # # #
+        . . # # #
+        `)
+    basic.pause(100)
+    basic.showLeds(`
+        . . . . .
+        # # . # #
+        . . . . .
+        # . . . #
+        . # # # .
+        `)
+    basic.clearScreen()
+    basic.showString("Happy birthday!")
+    music.stopMelody(MelodyStopOptions.All)
+})
