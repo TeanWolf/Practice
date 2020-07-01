@@ -12,10 +12,10 @@ basic.forever(function () {
     basic.pause(25)
 })
 basic.forever(function () {
-    basic.pause(200)
+    basic.pause(500)
     music.setVolume(30)
     music.setTempo(130)
-    music.startMelody(music.builtInMelody(Melodies.Birthday), MelodyOptions.ForeverInBackground)
+    music.startMelody(music.builtInMelody(Melodies.Birthday), MelodyOptions.Forever)
     basic.showLeds(`
         . . . . .
         . # . # .
