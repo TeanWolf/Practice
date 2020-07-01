@@ -1,21 +1,18 @@
 basic.clearScreen()
 pins.analogSetPitchPin(AnalogPin.P0)
-music.setTempo(120)
 music.setVolume(40)
 music.startMelody(music.builtInMelody(Melodies.PowerUp), MelodyOptions.Once)
+music.playMelody("C5 D E A E - A C ", 220)
 let strip = neopixel.create(DigitalPin.P5, 18, NeoPixelMode.RGB_RGB)
 strip.setBrightness(255)
 strip.clear()
-strip.showRainbow(1, 360)
-strip.show()
-basic.pause(100)
 basic.forever(function () {
     strip.rotate(1)
     strip.show()
-    basic.pause(100)
+    basic.pause(25)
 })
 basic.forever(function () {
-    basic.pause(1000)
+    basic.pause(200)
     music.setVolume(30)
     music.setTempo(130)
     music.startMelody(music.builtInMelody(Melodies.Birthday), MelodyOptions.ForeverInBackground)
@@ -53,4 +50,15 @@ basic.forever(function () {
     basic.clearScreen()
     basic.showString("Happy birthday!")
     music.stopMelody(MelodyStopOptions.All)
+})
+basic.forever(function () {
+    if (input.isGesture(Gesture.Shake)) {
+        strip.setBrightness(255)
+        strip.showColor(neopixel.colors(NeoPixelColors.Red))
+        strip.show()
+    } else {
+        strip.showRainbow(1, 360)
+        strip.show()
+        basic.pause(1000)
+    }
 })
