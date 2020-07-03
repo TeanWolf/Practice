@@ -1,0 +1,133 @@
+function moveRight () {
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED1, 0, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED2, 25, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED3, 100, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED4, 15, PCA96852)
+}
+function moveForward () {
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED1, 0, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED2, 40, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED3, 0, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED4, 40, PCA96852)
+}
+function moveBack () {
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED1, 100, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED2, 40, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED3, 100, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED4, 40, PCA96852)
+}
+function moveStop () {
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED1, 0, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED2, 0, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED3, 0, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED4, 0, PCA96852)
+}
+function moveLeft () {
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED1, 100, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED2, 15, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED3, 0, PCA96852)
+    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED4, 25, PCA96852)
+}
+let right_sen = 0
+let left_sen = 0
+let PCA96852 = 0
+basic.clearScreen()
+PCA96852 = 67
+music.setVolume(127)
+music.playMelody("C5 D E A E - A C ", 220)
+let n = 1
+let strip = neopixel.create(DigitalPin.P5, 18, NeoPixelMode.RGB_RGB)
+strip.setBrightness(255)
+strip.clear()
+PCA96852 = 67
+PCA9685.init(PCA96852, 0)
+PCA9685.reset(PCA96852)
+PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED5, 100, PCA96852)
+PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED6, 100, PCA96852)
+PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED7, 100, PCA96852)
+basic.pause(1000)
+basic.forever(function () {
+    left_sen = pins.digitalReadPin(DigitalPin.P13)
+    right_sen = pins.digitalReadPin(DigitalPin.P12)
+    if (left_sen == 0 && right_sen == 0) {
+        moveStop()
+        basic.showLeds(`
+            . # # # .
+            # # . # #
+            # . # . #
+            # # . # #
+            . # # # .
+            `)
+        basic.showLeds(`
+            # . . . #
+            . # . # .
+            . . # . .
+            . # . # .
+            # . . . #
+            `)
+    }
+    if (left_sen == 0 && right_sen == 1) {
+        moveRight()
+        basic.showLeds(`
+            . . # . .
+            . . . # .
+            # # # # #
+            . . . # .
+            . . # . .
+            `)
+        strip.showColor(neopixel.colors(NeoPixelColors.Purple))
+        strip.show()
+        music.playTone(262, music.beat(BeatFraction.Double))
+    }
+    if (left_sen == 1 && right_sen == 0) {
+        moveLeft()
+        basic.showLeds(`
+            . . # . .
+            . # . . .
+            # # # # #
+            . # . . .
+            . . # . .
+            `)
+        strip.showColor(neopixel.colors(NeoPixelColors.Indigo))
+        strip.show()
+        music.playTone(262, music.beat(BeatFraction.Double))
+    }
+    if (left_sen == 1 && right_sen == 1) {
+        moveForward()
+        basic.showLeds(`
+            . . # . .
+            . # # # .
+            # . # . #
+            . . # . .
+            . . # . .
+            `)
+        strip.showColor(neopixel.colors(NeoPixelColors.Yellow))
+        strip.show()
+    }
+    if (input.isGesture(Gesture.ThreeG)) {
+        moveBack()
+        basic.showLeds(`
+            . . # . .
+            . . # . .
+            # . # . #
+            . # # # .
+            . . # . .
+            `)
+        strip.showColor(neopixel.colors(NeoPixelColors.Red))
+        strip.show()
+        basic.pause(2000)
+        n += 0
+    }
+})
+basic.forever(function () {
+    if (n) {
+        strip.showRainbow(1, 360)
+        strip.show()
+        basic.pause(1000)
+    }
+})
+basic.forever(function () {
+    strip.rotate(1)
+    strip.show()
+    basic.pause(25)
+})
