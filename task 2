@@ -73,13 +73,6 @@ function moveStop () {
         # # . # #
         . # # # .
         `)
-    basic.showLeds(`
-        # . . . #
-        . # . # .
-        . . # . .
-        . # . # .
-        # . . . #
-        `)
 }
 function moveLeft () {
     PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED1, 0, PCA96852)
